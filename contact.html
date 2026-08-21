@@ -9,7 +9,7 @@
 <link rel="icon" href="images/favicon/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="images/favicon/favicon-16.png" type="image/png" sizes="16x16">
 <link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png">
-<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/styles.css?v=4">
 <style>
   .contact-columns {
     display: grid;
@@ -101,8 +101,11 @@
     <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
   </div>
 </header>
-<script src="js/main.js"></script>
-<script src="js/settings.js"></script>
+<script src="js/main.js?v=4"></script>
+<script src="js/settings.js?v=4"></script>
+
+<main id="page-wrapper" class="page-content-wrapper slide-in-left">
+
 <section class="hero page-hero" style="padding:70px 0 50px;">
   <div class="hero-bg"></div>
   <div class="wrap hero-inner">
@@ -164,14 +167,21 @@
     <p>&copy; 2026 EKAM Curates &middot; Visakhapatnam</p>
   </div>
 </footer>
+
+</main>
+
 <script>
-const params = new URLSearchParams(window.location.search);
-const msgEl = document.getElementById('form-msg');
-if (params.get('sent') === '1') {
-  msgEl.innerHTML = '<div class="note-box" style="border-color:#8fbf9a; margin-bottom:20px; padding:12px 16px; background:#f0f8f2; border-left:4px solid #8fbf9a; border-radius:4px; font-size:14px;">Thank you for sharing your details. One of our team members will reach out to you shortly.</div>';
-} else if (params.get('error') === '1') {
-  msgEl.innerHTML = '<div class="note-box" style="border-color:#e0a0a0; margin-bottom:20px; padding:12px 16px; background:#fbf0f0; border-left:4px solid #e0a0a0; border-radius:4px; font-size:14px;">Please fill in your name and contact details and try again.</div>';
-}
+window.initContactPage = function() {
+  const params = new URLSearchParams(window.location.search);
+  const msgEl = document.getElementById('form-msg');
+  if (!msgEl) return;
+  if (params.get('sent') === '1') {
+    msgEl.innerHTML = '<div class="note-box" style="border-color:#8fbf9a; margin-bottom:20px; padding:12px 16px; background:#f0f8f2; border-left:4px solid #8fbf9a; border-radius:4px; font-size:14px;">Thank you for sharing your details. One of our team members will reach out to you shortly.</div>';
+  } else if (params.get('error') === '1') {
+    msgEl.innerHTML = '<div class="note-box" style="border-color:#e0a0a0; margin-bottom:20px; padding:12px 16px; background:#fbf0f0; border-left:4px solid #e0a0a0; border-radius:4px; font-size:14px;">Please fill in your name and contact details and try again.</div>';
+  }
+};
+window.initContactPage();
 </script>
 </body>
 </html>
