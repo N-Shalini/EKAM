@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | Ekam</title>
+<meta name="description" content="Get in touch with Ekam to start planning your wedding, corporate event or celebration.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="images/favicon/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="images/favicon/favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  .contact-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  @media (max-width: 720px) {
+    .contact-columns { grid-template-columns: 1fr; }
+  }
+  .contact-card {
+    background: #fff;
+    border: 2px solid #c2a14d;
+    border-radius: 24px;
+    padding: 40px 36px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+  }
+  .contact-card h2 {
+    font-size: 28px;
+    margin-bottom: 41px;
+    border-bottom: none;
+  }
+  .contact-card .info-list { margin-top: 0; }
+  .contact-card form .field:first-child { margin-top: 0; }
+  .contact-card .info-list .item:first-child { margin-top: 0; }
+  .contact-card .field {
+    margin-bottom: 27px;
+  }
+  .contact-card .field input,
+  .contact-card .field select,
+  .contact-card .field textarea {
+    font-family: inherit;
+    font-size: 14px;
+    color: #6e1e1e;
+  }
+  .contact-card .field label {
+    font-size: 14px;
+    color: #c2a14d;
+  }
+  .contact-card textarea {
+    resize: none;
+  }
+  .contact-card .info-list .item {
+    margin-bottom: 14px;
+    border-bottom: none;
+    border-top: none;
+  }
+  .contact-card .info-list .item .value {
+    display: block;
+    margin-top: 8px;
+    font-size: 18px;
+  }
+  .contact-card .info-list .label {
+    font-size: 18px;
+    color: #c2a14d;
+  }
+  .contact-card .checkbox-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 16px;
+    margin-top: 4px;
+  }
+  .contact-card .checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: normal;
+    color: #4a3728;
+  }
+  .contact-card .checkbox-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #6e1e1e;
+  }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand"><img src="images/brand/logo-wordmark.png" alt="Ekam"></a>
+    <nav class="main-nav">
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="contact.html" class="active">Contact</a>
+    </nav>
+    <a href="contact.html" class="btn ghost">Enquire</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<script src="js/main.js"></script>
+<script src="js/settings.js"></script>
+<section class="hero page-hero" style="padding:70px 0 50px;">
+  <div class="hero-bg"></div>
+  <div class="wrap hero-inner">
+    <span class="eyebrow" style="font-size:16px;">Get In Touch</span>
+    <h1 style="font-size:clamp(36px,5vw,60px);">Let's bring your celebration to life.</h1>
+    <p class="lede" style="margin-top:18px; font-size:18px; line-height:1.6;">Share a little about your celebration, and we'll reach out soon to bring your ideas to life.</p>
+  </div>
+</section>
+<section style="padding:20px 0 80px;">
+  <div class="wrap contact-columns">
+    <div class="contact-card">
+      <h2>Enquiry Form</h2>
+      <div id="form-msg"></div>
+      <form name="enquiry" method="POST" action="contact-handle.php">
+        <div class="field"><label>Full Name</label><input type="text" name="name" required></div>
+        <div class="field"><label>Mobile Number</label><input type="tel" name="mobile" required></div>
+        <div class="field"><label>Email (optional)</label><input type="email" name="email"></div>
+        <div class="field">
+          <label>Event Type</label>
+          <div class="event-type">
+            <label><input type="checkbox" name="event-type[]" value="Wedding">Wedding</label>
+            <label><input type="checkbox" name="event-type[]" value="Engagement">Engagement</label>
+            <label><input type="checkbox" name="event-type[]" value="Reception">Reception</label>
+            <label><input type="checkbox" name="event-type[]" value="Half-Saree Ceremony">Half-Saree Ceremony</label>    
+            <label><input type="checkbox" name="event-type[]" value="Corporate Event">Corporate Event</label>
+            <label><input type="checkbox" name="event-type[]" value="Conference / Seminar">Conference / Seminar</label>
+            <label><input type="checkbox" name="event-type[]" value="Product Launch">Product Launch</label>
+            <label><input type="checkbox" name="event-type[]" value="Birthday Celebration">Birthday Celebration</label>
+            <label><input type="checkbox" name="event-type[]" value="Anniversary">Anniversary</label>
+            <label><input type="checkbox" name="event-type[]" value="Baby Shower">Baby Shower</label>
+            <label><input type="checkbox" name="event-type[]" value="Housewarming">Housewarming</label>
+            <label><input type="checkbox" name="event-type[]" value="Social Gathering">Social Gathering</label>
+            <label><input type="checkbox" name="event-type[]" value="Festive Celebration">Festive Celebration</label>
+            <label><input type="checkbox" name="event-type[]" value="Other">Other</label>
+          </div>
+        </div>
+        <div class="field"><label>Event Date (optional)</label><input type="date" name="event-date"></div>
+        <div class="field"><label>City / Venue</label><input type="text" name="venue"></div>
+        <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true"><label>Leave this field empty</label><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+        <div class="field"><label>Tell Us About Your Event</label><textarea rows="4" name="message"></textarea></div>
+        <button class="btn" type="submit">Share your story..</button>
+      </form>
+    </div>
+    <div class="contact-card">
+      <h2>Contact Us</h2>
+      <div class="info-list">
+        <div class="item"><div class="label">Contact</div><div class="value"><a href="tel:+916301940456" data-setting-phone>+91 63019 40456</a></div></div>
+        <div class="item"><div class="label">Instagram</div><div class="value"><a href="https://instagram.com/ekam.curates" target="_blank" rel="noopener" data-setting-instagram>@ekam.curates</a></div></div>
+        <div class="item"><div class="label">Email</div><div class="value"><a href="mailto:ekam.curates@gmail.com" data-setting-email>ekam.curates@gmail.com</a></div></div>
+        <div class="item"><div class="label">Location</div><div class="value" data-setting="studio_location">Visakhapatnam, Andhra Pradesh, India</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="site-footer">
+  <div class="footer-pattern"></div>
+  <div class="footer-inner">
+    <img class="wordmark" src="images/brand/logo-wordmark.png" alt="Ekam">
+    <p>&copy; 2026 EKAM Curates &middot; Visakhapatnam</p>
+  </div>
+</footer>
+<script>
+const params = new URLSearchParams(window.location.search);
+const msgEl = document.getElementById('form-msg');
+if (params.get('sent') === '1') {
+  msgEl.innerHTML = '<div class="note-box" style="border-color:#8fbf9a; margin-bottom:20px; padding:12px 16px; background:#f0f8f2; border-left:4px solid #8fbf9a; border-radius:4px; font-size:14px;">Thank you for sharing your details. One of our team members will reach out to you shortly.</div>';
+} else if (params.get('error') === '1') {
+  msgEl.innerHTML = '<div class="note-box" style="border-color:#e0a0a0; margin-bottom:20px; padding:12px 16px; background:#fbf0f0; border-left:4px solid #e0a0a0; border-radius:4px; font-size:14px;">Please fill in your name and contact details and try again.</div>';
+}
+</script>
+</body>
+</html>

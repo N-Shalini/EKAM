@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio | Ekam</title>
+<meta name="description" content="Selected weddings, corporate events and celebrations curated by Ekam.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="images/favicon/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="images/favicon/favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand"><img src="images/brand/logo-wordmark.png" alt="Ekam"></a>
+    <nav class="main-nav">
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="portfolio.html" class="active">Portfolio</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <a href="contact.html" class="btn ghost">Enquire</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<script src="js/main.js"></script>
+<script src="js/settings.js"></script>
+
+<section class="hero page-hero" style="padding:70px 0 50px;">
+  <div class="hero-bg"></div>
+  <div class="wrap hero-inner">
+    <span class="eyebrow">Selected Work</span>
+    <h1 style="font-size:clamp(36px,5vw,60px);">From the catalog.</h1>
+    <p class="lede" style="margin-top:18px;">Filter by category, or click into any piece to browse the full set of photos.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-filter="all">All Work</button>
+      <button class="filter-btn" data-filter="wedding">Weddings</button>
+      <button class="filter-btn" data-filter="engagement">Engagement</button>
+      <button class="filter-btn" data-filter="corporate">Corporate</button>
+      <button class="filter-btn" data-filter="celebration">Celebrations</button>
+    </div>
+    <div class="catalog" id="catalog">
+      <p style="opacity:.6;">Loading portfolio…</p>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-pattern"></div>
+  <div class="footer-inner">
+    <img class="bow" src="images/brand/icon-bow.png" alt="">
+    <img class="wordmark" src="images/brand/logo-wordmark.png" alt="Ekam">
+    <p>&copy; 2026 Ekam Curates · Visakhapatnam</p>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <div class="lb-top">
+    <div class="lb-title" id="lb-title-text">—<span id="lb-title-sub"></span></div>
+    <button class="lb-close" onclick="closeLightbox()">✕</button>
+  </div>
+  <div class="lb-main">
+    <button class="lb-arrow prev" onclick="nav(-1)">‹</button>
+    <img id="lb-img" src="" alt="">
+    <button class="lb-arrow next" onclick="nav(1)">›</button>
+  </div>
+  <div class="lb-strip-wrap">
+    <div class="lb-counter" id="lb-counter">1 / 1</div>
+    <div class="lb-strip" id="lb-strip"></div>
+  </div>
+</div>
+
+<script>
+const tones = ['tone-1','tone-2','tone-3','tone-4'];
+const toneColors = {
+  'tone-1': 'linear-gradient(155deg,#6e1e1e,#3c0f0f)',
+  'tone-2': 'linear-gradient(155deg,#c2a14d,#8a6f2f)',
+  'tone-3': 'linear-gradient(155deg,#d76c6b,#a3413f)',
+  'tone-4': 'linear-gradient(155deg,#4a3728,#2b1e15)'
+};
+let PORTFOLIO_ITEMS = [];
+let currentItem = 0, currentPhoto = 0;
+
+fetch('content/portfolio.json')
+  .then(r => r.json())
+  .then(data => { PORTFOLIO_ITEMS = data.items || []; renderCatalog(PORTFOLIO_ITEMS); })
+  .catch(() => {
+    document.getElementById('catalog').innerHTML = '<p style="opacity:.6;">Portfolio is being updated — check back soon.</p>';
+  });
+
+function cleanUrl(u) {
+  return u ? u.replace(/^\//, '') : '';
+}
+
+function renderCatalog(items) {
+  const el = document.getElementById('catalog');
+  if (!items.length) { el.innerHTML = '<p style="opacity:.6;">No work published yet.</p>'; return; }
+  el.innerHTML = items.map((item, i) => {
+    const tone = tones[i % tones.length];
+    const rawImgs = item.images || (item.image ? [item.image] : []);
+    const imgs = rawImgs.map(cleanUrl);
+    const bg = imgs[0] ? `background-image:url('${imgs[0]}')` : `background:${toneColors[tone]}`;
+    const badge = imgs.length > 1 ? `<span class="count">${imgs.length} photos</span>` : '';
+    return `
+    <div class="plate" data-cat="${item.category || ''}" onclick="openLightbox(${i})">
+      ${badge}
+      <div class="art" style="${bg}"><span class="tag">${(item.category || '').toUpperCase()}</span></div>
+      <div class="title">${item.title || ''}</div>
+      <div class="meta">${(item.category||'').toUpperCase()}${item.location ? ' · ' + item.location : ''}</div>
+    </div>`;
+  }).join('');
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      document.querySelectorAll('.plate').forEach(p => {
+        p.classList.toggle('hide', f !== 'all' && p.dataset.cat !== f);
+      });
+    });
+  });
+}
+
+function openLightbox(i){
+  currentItem = i;
+  const item = PORTFOLIO_ITEMS[i];
+  const rawImgs = item.images || (item.image ? [item.image] : []);
+  const imgs = rawImgs.map(cleanUrl);
+  document.getElementById('lb-title-text').innerHTML = (item.title||'') +
+    `<span>${(item.category||'').toUpperCase()}${item.location ? ' · ' + item.location : ''}</span>`;
+  document.getElementById('lb-strip').innerHTML = imgs.map((src,idx) =>
+    `<div class="lb-thumb" data-i="${idx}" onclick="go(${idx})"><img src="${src}"></div>`
+  ).join('');
+  go(0);
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); }
+function go(idx){
+  const item = PORTFOLIO_ITEMS[currentItem];
+  const rawImgs = item.images || (item.image ? [item.image] : []);
+  const imgs = rawImgs.map(cleanUrl);
+  if (!imgs.length) return;
+  currentPhoto = (idx + imgs.length) % imgs.length;
+  document.getElementById('lb-img').src = imgs[currentPhoto];
+  document.getElementById('lb-counter').textContent = (currentPhoto+1) + ' / ' + imgs.length;
+  document.querySelectorAll('.lb-thumb').forEach(t => t.classList.toggle('active', +t.dataset.i === currentPhoto));
+  const active = document.querySelector('.lb-thumb.active');
+  if (active) active.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+}
+function nav(dir){ go(currentPhoto+dir); }
+document.addEventListener('keydown', e=>{
+  if(!document.getElementById('lightbox').classList.contains('open')) return;
+  if(e.key==='ArrowRight') nav(1);
+  if(e.key==='ArrowLeft') nav(-1);
+  if(e.key==='Escape') closeLightbox();
+});
+</script>
+</body>
+</html>
