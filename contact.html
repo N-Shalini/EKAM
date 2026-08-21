@@ -9,83 +9,7 @@
 <link rel="icon" href="images/favicon/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="images/favicon/favicon-16.png" type="image/png" sizes="16x16">
 <link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png">
-<link rel="stylesheet" href="css/styles.css?v=4">
-<style>
-  .contact-columns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: start;
-  }
-  @media (max-width: 720px) {
-    .contact-columns { grid-template-columns: 1fr; }
-  }
-  .contact-card {
-    background: #fff;
-    border: 2px solid #c2a14d;
-    border-radius: 24px;
-    padding: 40px 36px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
-  }
-  .contact-card h2 {
-    font-size: 28px;
-    margin-bottom: 41px;
-    border-bottom: none;
-  }
-  .contact-card .info-list { margin-top: 0; }
-  .contact-card form .field:first-child { margin-top: 0; }
-  .contact-card .info-list .item:first-child { margin-top: 0; }
-  .contact-card .field {
-    margin-bottom: 27px;
-  }
-  .contact-card .field input,
-  .contact-card .field select,
-  .contact-card .field textarea {
-    font-family: inherit;
-    font-size: 14px;
-    color: #6e1e1e;
-  }
-  .contact-card .field label {
-    font-size: 14px;
-    color: #c2a14d;
-  }
-  .contact-card textarea {
-    resize: none;
-  }
-  .contact-card .info-list .item {
-    margin-bottom: 14px;
-    border-bottom: none;
-    border-top: none;
-  }
-  .contact-card .info-list .item .value {
-    display: block;
-    margin-top: 8px;
-    font-size: 18px;
-  }
-  .contact-card .info-list .label {
-    font-size: 18px;
-    color: #c2a14d;
-  }
-  .contact-card .checkbox-group {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px 16px;
-    margin-top: 4px;
-  }
-  .contact-card .checkbox-group label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    font-weight: normal;
-    color: #4a3728;
-  }
-  .contact-card .checkbox-group input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-    accent-color: #6e1e1e;
-  }
-</style>
+<link rel="stylesheet" href="css/styles.css?v=7">
 </head>
 <body>
 <header class="site-header">
@@ -101,8 +25,8 @@
     <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
   </div>
 </header>
-<script src="js/main.js?v=4"></script>
-<script src="js/settings.js?v=4"></script>
+<script src="js/main.js?v=7"></script>
+<script src="js/settings.js?v=7"></script>
 
 <main id="page-wrapper" class="page-content-wrapper slide-in-left">
 
@@ -126,20 +50,20 @@
         <div class="field">
           <label>Event Type</label>
           <div class="event-type">
-            <label><input type="checkbox" name="event-type[]" value="Wedding">Wedding</label>
-            <label><input type="checkbox" name="event-type[]" value="Engagement">Engagement</label>
-            <label><input type="checkbox" name="event-type[]" value="Reception">Reception</label>
-            <label><input type="checkbox" name="event-type[]" value="Half-Saree Ceremony">Half-Saree Ceremony</label>    
-            <label><input type="checkbox" name="event-type[]" value="Corporate Event">Corporate Event</label>
-            <label><input type="checkbox" name="event-type[]" value="Conference / Seminar">Conference / Seminar</label>
-            <label><input type="checkbox" name="event-type[]" value="Product Launch">Product Launch</label>
-            <label><input type="checkbox" name="event-type[]" value="Birthday Celebration">Birthday Celebration</label>
-            <label><input type="checkbox" name="event-type[]" value="Anniversary">Anniversary</label>
-            <label><input type="checkbox" name="event-type[]" value="Baby Shower">Baby Shower</label>
-            <label><input type="checkbox" name="event-type[]" value="Housewarming">Housewarming</label>
-            <label><input type="checkbox" name="event-type[]" value="Social Gathering">Social Gathering</label>
-            <label><input type="checkbox" name="event-type[]" value="Festive Celebration">Festive Celebration</label>
-            <label><input type="checkbox" name="event-type[]" value="Other">Other</label>
+            <label><input type="checkbox" name="event-type[]" value="Wedding"> Wedding</label>
+            <label><input type="checkbox" name="event-type[]" value="Engagement"> Engagement</label>
+            <label><input type="checkbox" name="event-type[]" value="Reception"> Reception</label>
+            <label><input type="checkbox" name="event-type[]" value="Half-Saree Ceremony"> Half-Saree Ceremony</label>    
+            <label><input type="checkbox" name="event-type[]" value="Corporate Event"> Corporate Event</label>
+            <label><input type="checkbox" name="event-type[]" value="Conference / Seminar"> Conference / Seminar</label>
+            <label><input type="checkbox" name="event-type[]" value="Product Launch"> Product Launch</label>
+            <label><input type="checkbox" name="event-type[]" value="Birthday Celebration"> Birthday Celebration</label>
+            <label><input type="checkbox" name="event-type[]" value="Anniversary"> Anniversary</label>
+            <label><input type="checkbox" name="event-type[]" value="Baby Shower"> Baby Shower</label>
+            <label><input type="checkbox" name="event-type[]" value="Housewarming"> Housewarming</label>
+            <label><input type="checkbox" name="event-type[]" value="Social Gathering"> Social Gathering</label>
+            <label><input type="checkbox" name="event-type[]" value="Festive Celebration"> Festive Celebration</label>
+            <label><input type="checkbox" name="event-type[]" value="Other"> Other</label>
           </div>
         </div>
         <div class="field"><label>Event Date (optional)</label><input type="date" name="event-date"></div>
