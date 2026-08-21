@@ -1,0 +1,38 @@
+{
+  "items": [
+    {
+      "title": "Meera & Arjun",
+      "category": "wedding",
+      "location": "Visakhapatnam",
+      "images": [
+        "images/portfolio/meera-arjun.jpg",
+        "images/portfolio/meera-arjun.jpg",
+        "images/portfolio/meera-arjun.jpg"
+      ]
+    },
+    {
+      "title": "Verve Product Launch",
+      "category": "corporate",
+      "location": "Visakhapatnam",
+      "images": [
+        "images/portfolio/verve-launch.jpg"
+      ]
+    },
+    {
+      "title": "Simi & Nani",
+      "category": "wedding",
+      "location": "Hyderabad",
+      "images": [
+        "images/portfolio/simi-nani.jpg"
+      ]
+    },
+    {
+      "title": "Anisha & Karthik",
+      "category": "engagement",
+      "location": "Visakhapatnam",
+      "images": [
+        "images/portfolio/anisha-karthik.jpg"
+      ]
+    }
+  ]
+}
