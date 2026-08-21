@@ -9,7 +9,7 @@
 <link rel="icon" href="images/favicon/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="images/favicon/favicon-16.png" type="image/png" sizes="16x16">
 <link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png">
-<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/styles.css?v=4">
 </head>
 <body>
 
@@ -26,8 +26,10 @@
     <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
   </div>
 </header>
-<script src="js/main.js"></script>
-<script src="js/settings.js"></script>
+<script src="js/main.js?v=4"></script>
+<script src="js/settings.js?v=4"></script>
+
+<main id="page-wrapper" class="page-content-wrapper slide-in-left">
 
 <section class="hero page-hero" style="padding:70px 0 50px;">
   <div class="hero-bg"></div>
@@ -79,91 +81,120 @@
   </div>
 </div>
 
+</main>
+
 <script>
-const tones = ['tone-1','tone-2','tone-3','tone-4'];
-const toneColors = {
-  'tone-1': 'linear-gradient(155deg,#6e1e1e,#3c0f0f)',
-  'tone-2': 'linear-gradient(155deg,#c2a14d,#8a6f2f)',
-  'tone-3': 'linear-gradient(155deg,#d76c6b,#a3413f)',
-  'tone-4': 'linear-gradient(155deg,#4a3728,#2b1e15)'
-};
-let PORTFOLIO_ITEMS = [];
-let currentItem = 0, currentPhoto = 0;
+(function() {
+  const tones = ['tone-1','tone-2','tone-3','tone-4'];
+  const toneColors = {
+    'tone-1': 'linear-gradient(155deg,#6e1e1e,#3c0f0f)',
+    'tone-2': 'linear-gradient(155deg,#c2a14d,#8a6f2f)',
+    'tone-3': 'linear-gradient(155deg,#d76c6b,#a3413f)',
+    'tone-4': 'linear-gradient(155deg,#4a3728,#2b1e15)'
+  };
+  let PORTFOLIO_ITEMS = [];
+  let currentItem = 0, currentPhoto = 0;
 
-fetch('content/portfolio.json')
-  .then(r => r.json())
-  .then(data => { PORTFOLIO_ITEMS = data.items || []; renderCatalog(PORTFOLIO_ITEMS); })
-  .catch(() => {
-    document.getElementById('catalog').innerHTML = '<p style="opacity:.6;">Portfolio is being updated — check back soon.</p>';
-  });
+  function cleanUrl(u) {
+    return u ? u.replace(/^\//, '') : '';
+  }
 
-function cleanUrl(u) {
-  return u ? u.replace(/^\//, '') : '';
-}
+  function renderCatalog(items) {
+    const el = document.getElementById('catalog');
+    if (!el) return;
+    if (!items.length) { el.innerHTML = '<p style="opacity:.6;">No work published yet.</p>'; return; }
+    el.innerHTML = items.map((item, i) => {
+      const tone = tones[i % tones.length];
+      const rawImgs = item.images || (item.image ? [item.image] : []);
+      const imgs = rawImgs.map(cleanUrl);
+      const bg = imgs[0] ? `background-image:url('${imgs[0]}')` : `background:${toneColors[tone]}`;
+      const badge = imgs.length > 1 ? `<span class="count">${imgs.length} photos</span>` : '';
+      return `
+      <div class="plate" data-cat="${item.category || ''}" onclick="openLightbox(${i})">
+        ${badge}
+        <div class="art" style="${bg}"><span class="tag">${(item.category || '').toUpperCase()}</span></div>
+        <div class="title">${item.title || ''}</div>
+        <div class="meta">${(item.category||'').toUpperCase()}${item.location ? ' · ' + item.location : ''}</div>
+      </div>`;
+    }).join('');
 
-function renderCatalog(items) {
-  const el = document.getElementById('catalog');
-  if (!items.length) { el.innerHTML = '<p style="opacity:.6;">No work published yet.</p>'; return; }
-  el.innerHTML = items.map((item, i) => {
-    const tone = tones[i % tones.length];
-    const rawImgs = item.images || (item.image ? [item.image] : []);
-    const imgs = rawImgs.map(cleanUrl);
-    const bg = imgs[0] ? `background-image:url('${imgs[0]}')` : `background:${toneColors[tone]}`;
-    const badge = imgs.length > 1 ? `<span class="count">${imgs.length} photos</span>` : '';
-    return `
-    <div class="plate" data-cat="${item.category || ''}" onclick="openLightbox(${i})">
-      ${badge}
-      <div class="art" style="${bg}"><span class="tag">${(item.category || '').toUpperCase()}</span></div>
-      <div class="title">${item.title || ''}</div>
-      <div class="meta">${(item.category||'').toUpperCase()}${item.location ? ' · ' + item.location : ''}</div>
-    </div>`;
-  }).join('');
-
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const f = btn.dataset.filter;
-      document.querySelectorAll('.plate').forEach(p => {
-        p.classList.toggle('hide', f !== 'all' && p.dataset.cat !== f);
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.filter;
+        document.querySelectorAll('.plate').forEach(p => {
+          p.classList.toggle('hide', f !== 'all' && p.dataset.cat !== f);
+        });
       });
     });
-  });
-}
+  }
 
-function openLightbox(i){
-  currentItem = i;
-  const item = PORTFOLIO_ITEMS[i];
-  const rawImgs = item.images || (item.image ? [item.image] : []);
-  const imgs = rawImgs.map(cleanUrl);
-  document.getElementById('lb-title-text').innerHTML = (item.title||'') +
-    `<span>${(item.category||'').toUpperCase()}${item.location ? ' · ' + item.location : ''}</span>`;
-  document.getElementById('lb-strip').innerHTML = imgs.map((src,idx) =>
-    `<div class="lb-thumb" data-i="${idx}" onclick="go(${idx})"><img src="${src}"></div>`
-  ).join('');
-  go(0);
-  document.getElementById('lightbox').classList.add('open');
-}
-function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); }
-function go(idx){
-  const item = PORTFOLIO_ITEMS[currentItem];
-  const rawImgs = item.images || (item.image ? [item.image] : []);
-  const imgs = rawImgs.map(cleanUrl);
-  if (!imgs.length) return;
-  currentPhoto = (idx + imgs.length) % imgs.length;
-  document.getElementById('lb-img').src = imgs[currentPhoto];
-  document.getElementById('lb-counter').textContent = (currentPhoto+1) + ' / ' + imgs.length;
-  document.querySelectorAll('.lb-thumb').forEach(t => t.classList.toggle('active', +t.dataset.i === currentPhoto));
-  const active = document.querySelector('.lb-thumb.active');
-  if (active) active.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
-}
-function nav(dir){ go(currentPhoto+dir); }
-document.addEventListener('keydown', e=>{
-  if(!document.getElementById('lightbox').classList.contains('open')) return;
-  if(e.key==='ArrowRight') nav(1);
-  if(e.key==='ArrowLeft') nav(-1);
-  if(e.key==='Escape') closeLightbox();
-});
+  window.openLightbox = function(i){
+    currentItem = i;
+    const item = PORTFOLIO_ITEMS[i];
+    if (!item) return;
+    const rawImgs = item.images || (item.image ? [item.image] : []);
+    const imgs = rawImgs.map(cleanUrl);
+    const titleEl = document.getElementById('lb-title-text');
+    if (titleEl) {
+      titleEl.innerHTML = (item.title||'') +
+        `<span>${(item.category||'').toUpperCase()}${item.location ? ' · ' + item.location : ''}</span>`;
+    }
+    const stripEl = document.getElementById('lb-strip');
+    if (stripEl) {
+      stripEl.innerHTML = imgs.map((src,idx) =>
+        `<div class="lb-thumb" data-i="${idx}" onclick="go(${idx})"><img src="${src}"></div>`
+      ).join('');
+    }
+    window.go(0);
+    const lb = document.getElementById('lightbox');
+    if (lb) lb.classList.add('open');
+  };
+
+  window.closeLightbox = function(){
+    const lb = document.getElementById('lightbox');
+    if (lb) lb.classList.remove('open');
+  };
+
+  window.go = function(idx){
+    const item = PORTFOLIO_ITEMS[currentItem];
+    if (!item) return;
+    const rawImgs = item.images || (item.image ? [item.image] : []);
+    const imgs = rawImgs.map(cleanUrl);
+    if (!imgs.length) return;
+    currentPhoto = (idx + imgs.length) % imgs.length;
+    const lbImg = document.getElementById('lb-img');
+    if (lbImg) lbImg.src = imgs[currentPhoto];
+    const lbCounter = document.getElementById('lb-counter');
+    if (lbCounter) lbCounter.textContent = (currentPhoto+1) + ' / ' + imgs.length;
+    document.querySelectorAll('.lb-thumb').forEach(t => t.classList.toggle('active', +t.dataset.i === currentPhoto));
+    const active = document.querySelector('.lb-thumb.active');
+    if (active) active.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+  };
+
+  window.nav = function(dir){ window.go(currentPhoto+dir); };
+
+  window.initPortfolio = function() {
+    fetch('content/portfolio.json')
+      .then(r => r.json())
+      .then(data => { PORTFOLIO_ITEMS = data.items || []; renderCatalog(PORTFOLIO_ITEMS); })
+      .catch(() => {
+        const cat = document.getElementById('catalog');
+        if (cat) cat.innerHTML = '<p style="opacity:.6;">Portfolio is being updated — check back soon.</p>';
+      });
+  };
+
+  document.addEventListener('keydown', e=>{
+    const lb = document.getElementById('lightbox');
+    if(!lb || !lb.classList.contains('open')) return;
+    if(e.key==='ArrowRight') window.nav(1);
+    if(e.key==='ArrowLeft') window.nav(-1);
+    if(e.key==='Escape') window.closeLightbox();
+  });
+
+  window.initPortfolio();
+})();
 </script>
 </body>
 </html>
