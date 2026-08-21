@@ -9,7 +9,7 @@
 <link rel="icon" href="images/favicon/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="images/favicon/favicon-16.png" type="image/png" sizes="16x16">
 <link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png">
-<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/styles.css?v=4">
 </head>
 <body>
 
@@ -26,8 +26,10 @@
     <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
   </div>
 </header>
-<script src="js/main.js"></script>
-<script src="js/settings.js"></script>
+<script src="js/main.js?v=4"></script>
+<script src="js/settings.js?v=4"></script>
+
+<main id="page-wrapper" class="page-content-wrapper slide-in-left">
 
 <section class="hero">
   <div class="hero-bg"></div>
@@ -142,18 +144,26 @@
   </div>
 </footer>
 
+</main>
+
 <script>
-fetch('content/portfolio.json').then(r=>r.json()).then(data=>{
-  const items=(data.items||[]).slice(0,4);
-  const tones=['linear-gradient(155deg,#6e1e1e,#3c0f0f)','linear-gradient(155deg,#c2a14d,#8a6f2f)','linear-gradient(155deg,#d76c6b,#a3413f)','linear-gradient(155deg,#4a3728,#2b1e15)'];
-  document.getElementById('home-catalog').innerHTML = items.map((it,i)=>{
-    const imgs = it.images || (it.image ? [it.image] : []);
-    const imgUrl = imgs[0] ? imgs[0].replace(/^\//, '') : '';
-    const bg = imgUrl ? `background-image:url('${imgUrl}')` : `background:${tones[i%4]}`;
-    const badge = imgs.length > 1 ? `<span class="count">${imgs.length} photos</span>` : '';
-    return `<a href="portfolio.html" class="plate">${badge}<div class="art" style="${bg}"><span class="tag">${(it.category||'').toUpperCase()}</span></div><div class="title">${it.title||''}</div><div class="meta">${(it.category||'').toUpperCase()}${it.location?' · '+it.location:''}</div></a>`;
-  }).join('');
-}).catch(()=>{ document.getElementById('home-catalog').innerHTML=''; });
+window.initHomePage = function() {
+  const catEl = document.getElementById('home-catalog');
+  if (!catEl) return;
+  fetch('content/portfolio.json').then(r=>r.json()).then(data=>{
+    const items=(data.items||[]).slice(0,4);
+    const tones=['linear-gradient(155deg,#6e1e1e,#3c0f0f)','linear-gradient(155deg,#c2a14d,#8a6f2f)','linear-gradient(155deg,#d76c6b,#a3413f)','linear-gradient(155deg,#4a3728,#2b1e15)'];
+    catEl.innerHTML = items.map((it,i)=>{
+      const imgs = it.images || (it.image ? [it.image] : []);
+      const imgUrl = imgs[0] ? imgs[0].replace(/^\//, '') : '';
+      const bg = imgUrl ? `background-image:url('${imgUrl}')` : `background:${tones[i%4]}`;
+      const badge = imgs.length > 1 ? `<span class="count">${imgs.length} photos</span>` : '';
+      return `<a href="portfolio.html" class="plate">${badge}<div class="art" style="${bg}"><span class="tag">${(it.category||'').toUpperCase()}</span></div><div class="title">${it.title||''}</div><div class="meta">${(it.category||'').toUpperCase()}${it.location?' · '+it.location:''}</div></a>`;
+    }).join('');
+    if (window.bindInternalLinks) window.bindInternalLinks();
+  }).catch(()=>{ if (catEl) catEl.innerHTML=''; });
+};
+window.initHomePage();
 </script>
 </body>
 </html>
