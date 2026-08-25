@@ -31,137 +31,235 @@
 
 <main id="page-wrapper" class="page-content-wrapper slide-in-left">
 
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="wrap hero-inner">
-    <span class="eyebrow">Boutique Events &amp; Décor</span>
-    <h1>Every celebration,<br>told as <em>one</em> story.</h1>
-    <p class="lede" data-setting="hero_subtext">Ekam curates weddings, corporate gatherings and life's milestones — weaving emotion, tradition and detail into a single, seamless experience.</p>
-    <div class="hero-foot">
-      <a href="contact.html" class="btn">Start Planning</a>
-      <a href="portfolio.html" class="btn ghost">View Portfolio</a>
+<!-- Presentation Controls & Overlays -->
+<nav class="deck-nav" id="deck-nav" aria-label="Slide Navigation">
+  <button class="deck-dot active" data-slide="0" aria-label="Slide 1: Intro"><span class="deck-dot-label">01 Intro</span></button>
+  <button class="deck-dot" data-slide="1" aria-label="Slide 2: About"><span class="deck-dot-label">02 About</span></button>
+  <button class="deck-dot" data-slide="2" aria-label="Slide 3: Services"><span class="deck-dot-label">03 Services</span></button>
+  <button class="deck-dot" data-slide="3" aria-label="Slide 4: Brand Seals"><span class="deck-dot-label">04 Brand Seals</span></button>
+  <button class="deck-dot" data-slide="4" aria-label="Slide 5: Selected Work"><span class="deck-dot-label">05 Portfolio</span></button>
+  <button class="deck-dot" data-slide="5" aria-label="Slide 6: Finale"><span class="deck-dot-label">06 Finale</span></button>
+</nav>
+
+<div class="deck-progress-bar" id="deck-progress-bar"></div>
+
+<div class="deck-hud" id="deck-hud">
+  <span class="deck-counter-current" id="deck-counter-curr">01</span>
+  <span>/ 06</span>
+</div>
+
+<div class="deck-container" id="deck-container">
+
+  <!-- SLIDE 1: HERO -->
+  <section class="deck-slide slide-hero is-active" id="slide-0" data-index="0">
+    <div class="hero-bg"></div>
+    <div class="hero-inner deck-slide-inner">
+      <span class="eyebrow reveal-item delay-1">Boutique Events &amp; Décor</span>
+      <h1 class="reveal-item delay-2">Every celebration,<br>told as <em>one</em> story.</h1>
+      <p class="lede reveal-item delay-3" data-setting="hero_subtext" style="margin: 20px auto 0; text-align:center;">Ekam curates weddings, corporate gatherings and life's milestones — weaving emotion, tradition and detail into a single, seamless experience.</p>
+      <div class="hero-foot reveal-item delay-4">
+        <a href="contact.html" class="btn">Start Planning</a>
+        <a href="portfolio.html" class="btn ghost">View Portfolio</a>
+      </div>
     </div>
-  </div>
-</section>
+    <button class="deck-scroll-hint" onclick="window.deckGoToSlide && window.deckGoToSlide(1)" aria-label="Scroll to next slide">
+      <span>Scroll to explore</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+  </section>
 
-<div class="divider-icon"><img src="images/brand/icon-heartdot.png" alt=""></div>
-
-<section id="about">
-  <div class="wrap about-grid">
-    <div>
-      <span class="eyebrow">About Ekam</span>
-      <h2 style="margin-top:20px;">Built on the idea of oneness.</h2>
-      <p class="lede" style="margin-top:22px; max-width:none;">Ekam is a boutique event planning and décor brand built on the idea of oneness, harmony, and meaningful storytelling. Born from the founder's own wedding experience, Ekam was created to transform stressful, fragmented event planning into calm, thoughtful, beautifully coordinated celebrations.</p>
-      <div class="founder-card">
-        <img src="images/brand/icon-lotushand.png" alt="">
+  <!-- SLIDE 2: ABOUT -->
+  <section class="deck-slide" id="slide-1" data-index="1">
+    <div class="deck-slide-inner">
+      <div class="section-head reveal-item delay-1">
         <div>
-          <div class="name">Kavya Neelakanta</div>
-          <div class="role">Founder</div>
+          <span class="eyebrow">About Ekam</span>
+          <h2 style="margin-top:14px;">Built on the idea of oneness.</h2>
+        </div>
+        <a href="about.html" class="btn ghost">Read Full Story</a>
+      </div>
+      <div class="about-grid">
+        <div class="about-card reveal-item delay-2">
+          <p class="lede" style="max-width:none; font-size:16px;">Ekam is a boutique event planning and décor brand built on the idea of oneness, harmony, and meaningful storytelling. Born from the founder's own wedding experience, Ekam transforms stressful, fragmented event planning into calm, thoughtful, beautifully coordinated celebrations.</p>
+          <div class="founder-card" style="margin-top:24px; padding-top:20px;">
+            <img src="images/brand/icon-lotushand.png" alt="Founder Icon">
+            <div>
+              <div class="name">Kavya Neelakanta</div>
+              <div class="role">Founder &amp; Creative Director</div>
+            </div>
+          </div>
+        </div>
+        <div class="about-card reveal-item delay-3" style="display:flex; flex-direction:column; justify-content:center;">
+          <div>
+            <span class="eyebrow" style="color:var(--maroon);">Our Vision</span>
+            <p class="lede" style="margin-top:8px; font-size:15px; max-width:none;">To establish Ekam as a trusted boutique event brand known for its warmth, creativity and soulful storytelling across South India.</p>
+          </div>
+          <div style="margin-top:24px; padding-top:20px; border-top:1px solid var(--line);">
+            <span class="eyebrow" style="color:var(--maroon);">Our Mission</span>
+            <p class="lede" style="margin-top:8px; font-size:15px; max-width:none;">To create calm, meaningful, beautifully managed celebrations by blending thoughtful planning, refined aesthetics and genuine care.</p>
+          </div>
         </div>
       </div>
     </div>
-    <div>
-      <span class="eyebrow">Vision &amp; Mission</span>
-      <h3 style="margin-top:20px; color:var(--brown);">Vision</h3>
-      <p class="lede" style="margin-top:10px; max-width:none;">To establish Ekam as a trusted boutique event brand in Visakhapatnam, known for its warmth, creativity and soulful storytelling — expanding across South India over time.</p>
-      <h3 style="margin-top:26px; color:var(--brown);">Mission</h3>
-      <p class="lede" style="margin-top:10px; max-width:none;">To create calm, meaningful, beautifully managed celebrations by blending thoughtful planning, refined aesthetics and genuine care.</p>
-    </div>
-  </div>
-</section>
+    <button class="deck-scroll-hint" onclick="window.deckGoToSlide && window.deckGoToSlide(2)" aria-label="Scroll to next slide">
+      <span>Explore Services</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+  </section>
 
-<section style="background:#fff;">
-  <div class="wrap">
-    <div class="section-head">
-      <div>
-        <span class="eyebrow">What We Curate</span>
-        <h2 style="margin-top:16px;">Services</h2>
+  <!-- SLIDE 3: SERVICES -->
+  <section class="deck-slide slide-white" id="slide-2" data-index="2">
+    <div class="deck-slide-inner">
+      <div class="section-head reveal-item delay-1">
+        <div>
+          <span class="eyebrow">What We Curate</span>
+          <h2 style="margin-top:14px;">Services</h2>
+        </div>
+        <p class="lede">From engagement to reception, and every ritual in between.</p>
+        <a href="services.html" class="btn ghost">All Services</a>
       </div>
-      <p class="lede">From engagement to reception, and every ritual in between.</p>
-    </div>
-    <div class="grid-3">
-      <div><span class="num">01</span><h3>Weddings</h3><p>Full-service planning across engagement, sangeet, mehendi, wedding and reception — one continuous story, not five separate events.</p></div>
-      <div><span class="num">02</span><h3>Corporate Events</h3><p>Launches, offsites and milestone gatherings produced with brand precision.</p></div>
-      <div><span class="num">03</span><h3>Rituals &amp; Traditions</h3><p>Specialists in Telugu wedding ritual coordination — Muhurtham to Gruhapravesam.</p></div>
-    </div>
-    <div class="chip-row">
-      <span class="chip">Muhurtham</span>
-      <span class="chip">Haldi</span>
-      <span class="chip">Mehendi</span>
-      <span class="chip">Sangeet</span>
-      <span class="chip">Pelli Pandiri</span>
-      <span class="chip">Gruhapravesam</span>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="section-head">
-      <div>
-        <span class="eyebrow">Ekam Signature Stamps</span>
-        <h2 style="margin-top:16px;">Our brand seals.</h2>
+      <div class="services-card-grid reveal-item delay-2">
+        <div class="deck-service-card">
+          <span class="num">01</span>
+          <h3>Weddings</h3>
+          <p>Full-service planning across engagement, sangeet, mehendi, wedding and reception — one continuous story, not five separate events.</p>
+        </div>
+        <div class="deck-service-card">
+          <span class="num">02</span>
+          <h3>Corporate Events</h3>
+          <p>Launches, offsites and milestone gatherings produced with flawless brand precision and creative poise.</p>
+        </div>
+        <div class="deck-service-card">
+          <span class="num">03</span>
+          <h3>Rituals &amp; Traditions</h3>
+          <p>Specialists in Telugu wedding ritual coordination — bringing authenticity, reverence and smooth execution from Muhurtham to Gruhapravesam.</p>
+        </div>
+      </div>
+      <div class="chip-row reveal-item delay-3" style="justify-content:center; margin-top:28px;">
+        <span class="chip">Muhurtham</span>
+        <span class="chip">Haldi</span>
+        <span class="chip">Mehendi</span>
+        <span class="chip">Sangeet</span>
+        <span class="chip">Pelli Pandiri</span>
+        <span class="chip">Gruhapravesam</span>
       </div>
     </div>
-    <div class="stamps-row">
-      <div class="stamp-item"><div class="stamp"><svg viewBox="0 0 24 24"><path d="M12 3v6M12 3l3 4M12 3l-3 4M12 3l5 2M12 3l-5 2"/></svg></div><div class="label">Seal of<br>Oneness</div></div>
-      <div class="stamp-item"><div class="stamp"><svg viewBox="0 0 24 24"><path d="M4 14c4-6 8-6 8-2s4 4 8-2M4 14c0 4 4 6 8 6s8-2 8-6"/></svg></div><div class="label">Curated<br>By Ekam</div></div>
-      <div class="stamp-item"><div class="stamp"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></div><div class="label">Planned<br>With Heart</div></div>
-      <div class="stamp-item"><div class="stamp"><svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/></svg></div><div class="label">Celebrated<br>Like Family</div></div>
-      <div class="stamp-item"><div class="stamp"><svg viewBox="0 0 24 24"><path d="M12 3c3 2 3 6 0 9-3-3-3-7 0-9zM12 12c3 2 3 6 0 9-3-3-3-7 0-9z"/></svg></div><div class="label">Ekam Story<br>Seal</div></div>
-    </div>
-  </div>
-</section>
+    <button class="deck-scroll-hint" onclick="window.deckGoToSlide && window.deckGoToSlide(3)" aria-label="Scroll to next slide">
+      <span>Our Brand Seals</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+  </section>
 
-<section style="background:#fff;">
-  <div class="wrap">
-    <div class="section-head">
-      <div>
-        <span class="eyebrow">Selected Work</span>
-        <h2 style="margin-top:16px;">From the catalog.</h2>
+  <!-- SLIDE 4: BRAND SEALS -->
+  <section class="deck-slide" id="slide-3" data-index="3">
+    <div class="deck-slide-inner">
+      <div class="section-head reveal-item delay-1" style="text-align:center; justify-content:center;">
+        <div>
+          <span class="eyebrow">Ekam Signature Stamps</span>
+          <h2 style="margin-top:14px;">Our Brand Seals</h2>
+          <p class="lede" style="margin: 10px auto 0; text-align:center;">The pillars that define every celebration curated under the Ekam banner.</p>
+        </div>
       </div>
-      <a href="portfolio.html" class="btn ghost">Full Portfolio</a>
+      <div class="deck-stamps-grid reveal-item delay-2">
+        <div class="deck-stamp-card">
+          <div class="stamp"><svg viewBox="0 0 24 24"><path d="M12 3v6M12 3l3 4M12 3l-3 4M12 3l5 2M12 3l-5 2"/></svg></div>
+          <div class="label">Seal of Oneness</div>
+          <p class="desc">Unifying design, emotion, and coordination into one harmonious flow.</p>
+        </div>
+        <div class="deck-stamp-card">
+          <div class="stamp"><svg viewBox="0 0 24 24"><path d="M4 14c4-6 8-6 8-2s4 4 8-2M4 14c0 4 4 6 8 6s8-2 8-6"/></svg></div>
+          <div class="label">Curated By Ekam</div>
+          <p class="desc">Bespoke aesthetics tailored distinctively to your personal taste.</p>
+        </div>
+        <div class="deck-stamp-card">
+          <div class="stamp"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></div>
+          <div class="label">Planned With Heart</div>
+          <p class="desc">Approached with calm consideration and genuine personal care.</p>
+        </div>
+        <div class="deck-stamp-card">
+          <div class="stamp"><svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/></svg></div>
+          <div class="label">Celebrated Like Family</div>
+          <p class="desc">Deep respect for family traditions and sacred moments.</p>
+        </div>
+        <div class="deck-stamp-card">
+          <div class="stamp"><svg viewBox="0 0 24 24"><path d="M12 3c3 2 3 6 0 9-3-3-3-7 0-9zM12 12c3 2 3 6 0 9-3-3-3-7 0-9z"/></svg></div>
+          <div class="label">Ekam Story Seal</div>
+          <p class="desc">Transforming milestones into lifelong cherished memories.</p>
+        </div>
+      </div>
     </div>
-    <div class="catalog" id="home-catalog">
-      <p style="opacity:.6;">Loading…</p>
+    <button class="deck-scroll-hint" onclick="window.deckGoToSlide && window.deckGoToSlide(4)" aria-label="Scroll to next slide">
+      <span>View Selected Work</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+  </section>
+
+  <!-- SLIDE 5: PORTFOLIO -->
+  <section class="deck-slide slide-white" id="slide-4" data-index="4">
+    <div class="deck-slide-inner">
+      <div class="section-head reveal-item delay-1">
+        <div>
+          <span class="eyebrow">Selected Work</span>
+          <h2 style="margin-top:14px;">From the Catalog</h2>
+        </div>
+        <a href="portfolio.html" class="btn ghost">Full Portfolio</a>
+      </div>
+      <div class="catalog reveal-item delay-2" id="home-catalog">
+        <p style="opacity:.6;">Loading catalog…</p>
+      </div>
     </div>
-  </div>
-</section>
+    <button class="deck-scroll-hint" onclick="window.deckGoToSlide && window.deckGoToSlide(5)" aria-label="Scroll to next slide">
+      <span>Client Words &amp; Connect</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+  </section>
 
-<section class="testimonial">
-  <div class="wrap">
-    <blockquote>&ldquo;<span data-setting="testimonial_quote">Ekam turned a hundred worries into one calm, beautiful day that felt entirely, unmistakably ours.</span>&rdquo;</blockquote>
-    <cite data-setting="testimonial_author">Meera &amp; Arjun — Wedding, Visakhapatnam</cite>
-  </div>
-</section>
+  <!-- SLIDE 6: TESTIMONIAL & FINALE -->
+  <section class="deck-slide slide-dark" id="slide-5" data-index="5">
+    <div class="deck-slide-inner">
+      <div class="finale-quote reveal-item delay-1">
+        <span class="eyebrow" style="color:var(--gold); margin-bottom:18px;">Client Stories</span>
+        <blockquote>&ldquo;<span data-setting="testimonial_quote">Ekam turned a hundred worries into one calm, beautiful day that felt entirely, unmistakably ours.</span>&rdquo;</blockquote>
+        <cite data-setting="testimonial_author">Meera &amp; Arjun — Wedding, Visakhapatnam</cite>
+      </div>
+      <div class="finale-cta-box reveal-item delay-2">
+        <a href="contact.html" class="btn" style="background:var(--gold); color:var(--maroon); font-weight:700;">Start Planning Your Celebration</a>
+      </div>
+      <div class="finale-footer-meta reveal-item delay-3">
+        <img class="bow" src="images/brand/icon-bow.png" alt="Ekam Motif">
+        <img class="wordmark" src="images/brand/logo-wordmark.png" alt="Ekam">
+        <p>&copy; 2026 Ekam Curates · Visakhapatnam · All Rights Reserved</p>
+      </div>
+    </div>
+  </section>
 
-<footer class="site-footer">
-  <div class="footer-pattern"></div>
-  <div class="footer-inner">
-    <img class="bow" src="images/brand/icon-bow.png" alt="">
-    <img class="wordmark" src="images/brand/logo-wordmark.png" alt="Ekam">
-    <p>&copy; 2026 Ekam Curates · Visakhapatnam</p>
-  </div>
-</footer>
+</div>
 
 </main>
 
 <script>
 window.initHomePage = function() {
+  // Load portfolio preview
   const catEl = document.getElementById('home-catalog');
-  if (!catEl) return;
-  fetch('content/portfolio.json').then(r=>r.json()).then(data=>{
-    const items=(data.items||[]).slice(0,4);
-    const tones=['linear-gradient(155deg,#6e1e1e,#3c0f0f)','linear-gradient(155deg,#c2a14d,#8a6f2f)','linear-gradient(155deg,#d76c6b,#a3413f)','linear-gradient(155deg,#4a3728,#2b1e15)'];
-    catEl.innerHTML = items.map((it,i)=>{
-      const imgs = it.images || (it.image ? [it.image] : []);
-      const imgUrl = imgs[0] ? imgs[0].replace(/^\//, '') : '';
-      const bg = imgUrl ? `background-image:url('${imgUrl}')` : `background:${tones[i%4]}`;
-      const badge = imgs.length > 1 ? `<span class="count">${imgs.length} photos</span>` : '';
-      return `<a href="portfolio.html" class="plate">${badge}<div class="art" style="${bg}"><span class="tag">${(it.category||'').toUpperCase()}</span></div><div class="title">${it.title||''}</div><div class="meta">${(it.category||'').toUpperCase()}${it.location?' · '+it.location:''}</div></a>`;
-    }).join('');
-    if (window.bindInternalLinks) window.bindInternalLinks();
-  }).catch(()=>{ if (catEl) catEl.innerHTML=''; });
+  if (catEl) {
+    fetch('content/portfolio.json').then(r=>r.json()).then(data=>{
+      const items=(data.items||[]).slice(0,4);
+      const tones=['linear-gradient(155deg,#6e1e1e,#3c0f0f)','linear-gradient(155deg,#c2a14d,#8a6f2f)','linear-gradient(155deg,#d76c6b,#a3413f)','linear-gradient(155deg,#4a3728,#2b1e15)'];
+      catEl.innerHTML = items.map((it,i)=>{
+        const imgs = it.images || (it.image ? [it.image] : []);
+        const imgUrl = imgs[0] ? imgs[0].replace(/^\//, '') : '';
+        const bg = imgUrl ? `background-image:url('${imgUrl}')` : `background:${tones[i%4]}`;
+        const badge = imgs.length > 1 ? `<span class="count">${imgs.length} photos</span>` : '';
+        return `<a href="portfolio.html" class="plate">${badge}<div class="art" style="${bg}"><span class="tag">${(it.category||'').toUpperCase()}</span></div><div class="title">${it.title||''}</div><div class="meta">${(it.category||'').toUpperCase()}${it.location?' · '+it.location:''}</div></a>`;
+      }).join('');
+      if (window.bindInternalLinks) window.bindInternalLinks();
+    }).catch(()=>{ if (catEl) catEl.innerHTML=''; });
+  }
+
+  // Initialize Presentation Deck Controller
+  if (window.initPresentationDeck) {
+    window.initPresentationDeck();
+  }
 };
 window.initHomePage();
 </script>
