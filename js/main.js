@@ -2,6 +2,10 @@ document.addEventListener('DOMContentLoaded', function () {
   initNav();
   bindInternalLinks();
 
+  if (document.getElementById('deck-container') && window.initPresentationDeck) {
+    window.initPresentationDeck();
+  }
+
   // Initial load slide in
   const wrapper = document.getElementById('page-wrapper');
   if (wrapper) {
@@ -102,9 +106,16 @@ async function navigateTo(url, pushState = true) {
       window.applySettings(window.EKAM_SETTINGS);
     }
 
+    // Clean up presentation deck if leaving homepage
+    if (cleanName !== 'index.html' && deckState && deckState.cleanup) {
+      deckState.cleanup();
+      deckState.cleanup = null;
+    }
+
     // 8. Re-initialize page specific scripts
     if (cleanName === 'index.html') {
       if (window.initHomePage) window.initHomePage();
+      if (window.initPresentationDeck) window.initPresentationDeck();
     } else if (cleanName === 'portfolio.html') {
       if (window.initPortfolio) window.initPortfolio();
     } else if (cleanName === 'contact.html') {
@@ -164,3 +175,220 @@ function bindInternalLinks() {
 window.addEventListener('popstate', function () {
   navigateTo(window.location.href, false);
 });
+
+/* =========================================================
+   PRESENTATION DECK CONTROLLER (HOMEPAGE)
+   ========================================================= */
+var deckState = {
+  active: false,
+  currentIndex: 0,
+  isLocked: false,
+  lockTimeout: null,
+  cleanup: null
+};
+
+window.initPresentationDeck = function () {
+  // Clean up any previous deck listeners
+  if (deckState.cleanup) {
+    deckState.cleanup();
+    deckState.cleanup = null;
+  }
+
+  var container = document.getElementById('deck-container');
+  if (!container) return;
+
+  var slides = Array.from(container.querySelectorAll('.deck-slide'));
+  if (slides.length === 0) return;
+
+  var dots = Array.from(document.querySelectorAll('.deck-dot'));
+  var counterEl = document.getElementById('deck-counter-curr');
+  var progressBar = document.getElementById('deck-progress-bar');
+  var total = slides.length;
+
+  deckState.active = true;
+  deckState.currentIndex = 0;
+  deckState.isLocked = false;
+
+  function updateHUD(index) {
+    deckState.currentIndex = index;
+
+    // Update dots
+    dots.forEach(function (dot, i) {
+      if (i === index) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
+
+    // Update Counter
+    if (counterEl) {
+      counterEl.textContent = String(index + 1).padStart(2, '0');
+    }
+
+    // Update Progress Bar
+    if (progressBar) {
+      progressBar.style.width = ((index + 1) / total * 100) + '%';
+    }
+
+    // Trigger reveal animations
+    slides.forEach(function (slide, i) {
+      if (i === index) {
+        slide.classList.add('is-active');
+      }
+    });
+  }
+
+  function goToSlide(targetIndex) {
+    if (targetIndex < 0) targetIndex = 0;
+    if (targetIndex >= total) targetIndex = total - 1;
+
+    deckState.currentIndex = targetIndex;
+    deckState.isLocked = true;
+    clearTimeout(deckState.lockTimeout);
+
+    updateHUD(targetIndex);
+
+    slides[targetIndex].scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    deckState.lockTimeout = setTimeout(function () {
+      deckState.isLocked = false;
+    }, 600);
+  }
+
+  window.deckGoToSlide = goToSlide;
+
+  // Dot Click Handlers
+  dots.forEach(function (dot) {
+    dot.onclick = function (e) {
+      e.preventDefault();
+      var idx = parseInt(dot.getAttribute('data-slide'), 10);
+      if (!isNaN(idx)) {
+        goToSlide(idx);
+      }
+    };
+  });
+
+  // Wheel / Trackpad Handler
+  function onWheel(e) {
+    if (!deckState.active) return;
+    
+    // Ignore small trackpad drift
+    if (Math.abs(e.deltaY) < 18) return;
+
+    if (deckState.isLocked) {
+      e.preventDefault();
+      return;
+    }
+
+    if (e.deltaY > 0) {
+      // Scroll Down -> Next Slide
+      if (deckState.currentIndex < total - 1) {
+        e.preventDefault();
+        goToSlide(deckState.currentIndex + 1);
+      }
+    } else if (e.deltaY < 0) {
+      // Scroll Up -> Previous Slide
+      if (deckState.currentIndex > 0) {
+        e.preventDefault();
+        goToSlide(deckState.currentIndex - 1);
+      }
+    }
+  }
+
+  // Touch Gesture Handlers for Mobile & Tablets
+  var touchStartY = 0;
+  var touchStartX = 0;
+
+  function onTouchStart(e) {
+    if (e.touches.length === 1) {
+      touchStartY = e.touches[0].clientY;
+      touchStartX = e.touches[0].clientX;
+    }
+  }
+
+  function onTouchEnd(e) {
+    if (deckState.isLocked) return;
+    if (!e.changedTouches || e.changedTouches.length === 0) return;
+
+    var touchEndY = e.changedTouches[0].clientY;
+    var touchEndX = e.changedTouches[0].clientX;
+    var deltaY = touchStartY - touchEndY;
+    var deltaX = touchStartX - touchEndX;
+
+    // Ensure vertical swipe is dominant
+    if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 38) {
+      if (deltaY > 0 && deckState.currentIndex < total - 1) {
+        goToSlide(deckState.currentIndex + 1);
+      } else if (deltaY < 0 && deckState.currentIndex > 0) {
+        goToSlide(deckState.currentIndex - 1);
+      }
+    }
+  }
+
+  // Keyboard Navigation
+  function onKeyDown(e) {
+    if (!deckState.active) return;
+
+    // Ignore if typing in an input or textarea
+    var tag = (document.activeElement && document.activeElement.tagName) || '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+
+    if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+      if (deckState.currentIndex < total - 1) {
+        e.preventDefault();
+        goToSlide(deckState.currentIndex + 1);
+      }
+    } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+      if (deckState.currentIndex > 0) {
+        e.preventDefault();
+        goToSlide(deckState.currentIndex - 1);
+      }
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      goToSlide(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      goToSlide(total - 1);
+    }
+  }
+
+  // IntersectionObserver to keep HUD and animations updated if user scrolls naturally
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        var idx = parseInt(entry.target.getAttribute('data-index'), 10);
+        if (!isNaN(idx) && !deckState.isLocked) {
+          updateHUD(idx);
+        }
+      }
+    });
+  }, {
+    root: container,
+    threshold: 0.55
+  });
+
+  slides.forEach(function (slide) {
+    observer.observe(slide);
+  });
+
+  container.addEventListener('wheel', onWheel, { passive: false });
+  container.addEventListener('touchstart', onTouchStart, { passive: true });
+  container.addEventListener('touchend', onTouchEnd, { passive: true });
+  window.addEventListener('keydown', onKeyDown);
+
+  // Initial HUD update
+  updateHUD(0);
+
+  // Store cleanup
+  deckState.cleanup = function () {
+    deckState.active = false;
+    observer.disconnect();
+    container.removeEventListener('wheel', onWheel);
+    container.removeEventListener('touchstart', onTouchStart);
+    container.removeEventListener('touchend', onTouchEnd);
+    window.removeEventListener('keydown', onKeyDown);
+    delete window.deckGoToSlide;
+  };
+};
+
