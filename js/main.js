@@ -249,11 +249,20 @@ window.initPresentationDeck = function () {
 
     updateHUD(targetIndex);
 
-    slides[targetIndex].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Keep window strictly pinned at top so sticky header never shakes
+    if (window.scrollY !== 0) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }
+
+    var targetOffset = slides[targetIndex].offsetTop;
+    container.scrollTo({
+      top: targetOffset,
+      behavior: 'smooth'
+    });
 
     deckState.lockTimeout = setTimeout(function () {
       deckState.isLocked = false;
-    }, 600);
+    }, 750);
   }
 
   window.deckGoToSlide = goToSlide;
@@ -269,28 +278,76 @@ window.initPresentationDeck = function () {
     };
   });
 
-  // Wheel / Trackpad Handler
+  // Trackpad Momentum & Wheel Gesture Controller
+  var isMomentumActive = false;
+  var wheelIdleTimer = null;
+  var accumulatedDelta = 0;
+  var recentDeltas = [];
+
   function onWheel(e) {
     if (!deckState.active) return;
-    
-    // Ignore small trackpad drift
-    if (Math.abs(e.deltaY) < 18) return;
 
+    // Prevent default native scroll/bounce on the deck to avoid jitter
+    e.preventDefault();
+
+    var deltaY = e.deltaY;
+
+    // Normalize deltaMode (e.g. Firefox line mode)
+    if (e.deltaMode === 1) {
+      deltaY *= 33;
+    } else if (e.deltaMode === 2) {
+      deltaY *= 100;
+    }
+
+    // Ignore horizontal trackpad swipes
+    if (Math.abs(e.deltaX) > Math.abs(deltaY)) return;
+
+    var absDelta = Math.abs(deltaY);
+    recentDeltas.push(absDelta);
+    if (recentDeltas.length > 6) recentDeltas.shift();
+
+    // Reset idle timer whenever any wheel event arrives
+    clearTimeout(wheelIdleTimer);
+    wheelIdleTimer = setTimeout(function () {
+      isMomentumActive = false;
+      accumulatedDelta = 0;
+      recentDeltas = [];
+    }, 180);
+
+    // If slide transition is currently animating, ignore event
     if (deckState.isLocked) {
-      e.preventDefault();
       return;
     }
 
-    if (e.deltaY > 0) {
-      // Scroll Down -> Next Slide
-      if (deckState.currentIndex < total - 1) {
-        e.preventDefault();
-        goToSlide(deckState.currentIndex + 1);
+    // If trackpad inertia momentum is still decaying from previous swipe
+    if (isMomentumActive) {
+      // Check if user initiated a deliberate new swipe (sudden surge in delta)
+      var avgRecent = recentDeltas.length > 2
+        ? (recentDeltas.slice(0, -1).reduce(function (a, b) { return a + b; }, 0) / (recentDeltas.length - 1))
+        : 0;
+
+      var isSurge = absDelta > 30 && absDelta > avgRecent * 1.8;
+
+      if (!isSurge) {
+        // Trailing inertia from previous swipe — ignore
+        return;
       }
-    } else if (e.deltaY < 0) {
-      // Scroll Up -> Previous Slide
-      if (deckState.currentIndex > 0) {
-        e.preventDefault();
+    }
+
+    // Accumulate deltas to filter out accidental trackpad brush/drift
+    accumulatedDelta += deltaY;
+
+    var THRESHOLD = 24;
+
+    if (Math.abs(accumulatedDelta) >= THRESHOLD) {
+      var direction = accumulatedDelta > 0 ? 1 : -1;
+      accumulatedDelta = 0;
+
+      if (direction > 0 && deckState.currentIndex < total - 1) {
+        isMomentumActive = true;
+        goToSlide(deckState.currentIndex + 1);
+      } else if (direction < 0 && deckState.currentIndex > 0) {
+        isMomentumActive = true;
         goToSlide(deckState.currentIndex - 1);
       }
     }
@@ -353,6 +410,16 @@ window.initPresentationDeck = function () {
     }
   }
 
+  // Keep active slide perfectly aligned on window resize
+  function onResize() {
+    if (deckState.active && slides[deckState.currentIndex]) {
+      container.scrollTo({
+        top: slides[deckState.currentIndex].offsetTop,
+        behavior: 'instant'
+      });
+    }
+  }
+
   // IntersectionObserver to keep HUD and animations updated if user scrolls naturally
   var observer = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
@@ -372,10 +439,11 @@ window.initPresentationDeck = function () {
     observer.observe(slide);
   });
 
-  container.addEventListener('wheel', onWheel, { passive: false });
+  window.addEventListener('wheel', onWheel, { passive: false });
   container.addEventListener('touchstart', onTouchStart, { passive: true });
   container.addEventListener('touchend', onTouchEnd, { passive: true });
   window.addEventListener('keydown', onKeyDown);
+  window.addEventListener('resize', onResize);
 
   // Initial HUD update
   updateHUD(0);
@@ -383,11 +451,14 @@ window.initPresentationDeck = function () {
   // Store cleanup
   deckState.cleanup = function () {
     deckState.active = false;
+    clearTimeout(deckState.lockTimeout);
+    clearTimeout(wheelIdleTimer);
     observer.disconnect();
-    container.removeEventListener('wheel', onWheel);
+    window.removeEventListener('wheel', onWheel);
     container.removeEventListener('touchstart', onTouchStart);
     container.removeEventListener('touchend', onTouchEnd);
     window.removeEventListener('keydown', onKeyDown);
+    window.removeEventListener('resize', onResize);
     delete window.deckGoToSlide;
   };
 };
