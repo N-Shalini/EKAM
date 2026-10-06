@@ -341,7 +341,6 @@ section{ padding:90px 0; }
   height: calc(100vh - 88px);
   height: calc(100dvh - 88px);
   overflow-y: scroll;
-  scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   position: relative;
   scrollbar-width: none;
@@ -362,8 +361,6 @@ section{ padding:90px 0; }
   min-height: calc(100vh - 88px);
   min-height: calc(100dvh - 88px);
   width: 100%;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -489,29 +486,7 @@ section{ padding:90px 0; }
 }
 
 .deck-dot-label {
-  position: absolute;
-  right: 22px;
-  top: 50%;
-  transform: translateY(-50%) translateX(8px);
-  background: var(--maroon);
-  color: var(--ivory);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-weight: 600;
-  padding: 5px 12px;
-  border-radius: 999px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-}
-
-.deck-dot:hover .deck-dot-label,
-.deck-dot.active .deck-dot-label {
-  opacity: 1;
-  transform: translateY(-50%) translateX(0);
+  display: none !important;
 }
 
 @media (max-width: 860px) {
