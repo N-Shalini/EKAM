@@ -201,7 +201,6 @@ window.initPresentationDeck = function () {
   if (slides.length === 0) return;
 
   var dots = Array.from(document.querySelectorAll('.deck-dot'));
-  var counterEl = document.getElementById('deck-counter-curr');
   var progressBar = document.getElementById('deck-progress-bar');
   var total = slides.length;
 
@@ -220,11 +219,6 @@ window.initPresentationDeck = function () {
         dot.classList.remove('active');
       }
     });
-
-    // Update Counter
-    if (counterEl) {
-      counterEl.textContent = String(index + 1).padStart(2, '0');
-    }
 
     // Update Progress Bar
     if (progressBar) {
